@@ -1,6 +1,17 @@
+[![npm](https://img.shields.io/npm/v/searchable-encryption)](https://www.npmjs.com/package/searchable-encryption)
+![npm](https://img.shields.io/npm/dm/searchable-encryption?color=yellow)
+![NPM](https://img.shields.io/npm/l/searchable-encryption)
+<!-- ![npm bundle size](https://img.shields.io/bundlephobia/min/searchable-encryption?color=green) -->
+<!-- ![npm bundle size](https://img.shields.io/bundlephobia/minzip/searchable-encryption?color=green) -->
+
 # Searchable Encryption
 
-Searchable encryption provides basic functions that is required in the schemes of index-based symmetric searchable encryption, with the goal to be simple, fast and secure. To keep this package easy to use, some cryptographic configurations are taken beforehand by the contributors to this package, such that the provided functionaries are secure. This is build on top of [WebCrypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API), which expose low-level cryptographic primitives to browser based applications; hence `searchable-encryption` is much faster, and maintains tiny bundle-size! 😎
+Searchable encryption provides basic functions that is required in the schemes of index-based symmetric searchable encryption (SSE), with the goal to be simple, fast and secure. To keep this package easy to use, some cryptographic configurations are taken beforehand by the contributors to this package, such that the provided functionaries are secure. This is build on top of [WebCrypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API), which expose low-level cryptographic primitives to browser based applications; hence `searchable-encryption` is much faster, and maintains tiny bundle-size (less than 1kb)! 😎
+
+⚠️ _**WARRNING:** this package is created by undergraduate CS student and still **under developement**; hence up until now, it is not secure proved, nor checked by a security expert. The goal stated above is NOT FULLY reliased at the momemnt, but with plane to do so in the near feauture. Please inscpect the sorce-code and the chosen cryptography algorithms, with help of security expect ofcourse, before using it!_
+
+ℹ️ **For potentioal contributors**, pull reuqests are always welcomed as long the changes is well motivited, and keeping the simplicity of use in mind. The goal of this packages to contains the functionalities to all the proposed searchable encryption scheme, and to make them accessable to the web. Additional source-code, for helper functions and to add support for other searchable encryption schemes, should be [tree shackable](https://webpack.js.org/guides/tree-shaking/).
+
 
 ## Get started!
 
@@ -28,6 +39,8 @@ const data = [
 ```
 
 ## API v1
+
+### SSE functions
 
 ```js
 /**
@@ -65,9 +78,11 @@ export async function trapdoor(query, key) { ... }
  * @returns object in form of {key, iv}, where the (key) is the created CryptoKey, and the (iv) is 16 byte ArrayBuffer
  */
 export async function genSecretKey(secret = "PASSPHRASE", options = {}) { ... }
+```
 
-// ------------ Basic Cryptography functions ------------
+### Basic Cryptography functions
 
+```js
 /**
  * Encrypt textual based data using the AES-CBC encryption algorithm.
  * @param {string} text string text to be encrypted.
@@ -96,9 +111,11 @@ export async function decrypt(encryptedData, keyObject, encoding) { ... }
  * @returns textual representation default 'hex' of the hash.
  */
 export async function digest(data, options = {}) { ... }
+```
 
-// ------------ Utile functions ------------
+### ArrayBuffer utils functions
 
+```js
 /**
  * Concat two or multiple ArrayBuffer passed as arguments.
  * @param  {...ArrayBuffer} buffers buffers passed as multiple arguments.
