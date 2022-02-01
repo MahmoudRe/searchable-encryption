@@ -1,11 +1,18 @@
 {
   "name": "searchable-encryption",
   "version": "1.0.0",
-  "description": "Searchable encryption utility functions",
+  "description": "Index-based Symmetric Searchable Encryption library",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
+  "repository": "MahmoudRe/searchable-encryption",
+  "keywords": [
+      "se",
+      "sse",
+      "searchable encryption",
+      "symmetric searchable encryption",
+      "search",
+      "searchable",
+      "encryption"
+  ],
+  "author": "Mahmoud Al-Refaai",
   "license": "ISC"
 }
