@@ -7,7 +7,7 @@
  *      Default is function that extract all distinct tokens from a string, in case document.data is of type string.
  * @returns object where each key is a trapdoor that its value is array of pointers to the associated documents.
  */
- export async function buildIndex(documents = {}, secretKey, getKeywords) {
+ export async function buildIndex(documents = [], secretKey, getKeywords) {
   //fallback getKeywords function if the document.data is string
   if (typeof getKeywords !== "function" && typeof documents[0]?.data === "string")
     getKeywords = (e) => new Set(e.split(" "));

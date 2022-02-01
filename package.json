@@ -13,6 +13,9 @@
     "searchable",
     "encryption"
   ],
+  "files": [
+    "index.js"
+  ],
   "author": "Mahmoud Al-Refaai",
   "license": "ISC"
 }
