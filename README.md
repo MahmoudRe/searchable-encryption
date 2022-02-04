@@ -60,6 +60,11 @@ const data = [
  * @returns string represent the trapdoor
  */
 export async function trapdoor(query, key) { ... }
+```
+
+### Key functions
+
+```js
 
 /**
  * Generate a symmetric secret key for AES-CBC encryption algorithm,
@@ -77,6 +82,25 @@ export async function trapdoor(query, key) { ... }
  * @returns object in form of {key, iv}, where the (key) is the created CryptoKey, and the (iv) is 16 byte ArrayBuffer
  */
 export async function genSecretKey(secret = "PASSPHRASE", options = {}) { ... }
+
+/**
+ * Export the key as JSON object, where it converts the { key } attribute to a given format,
+ * and convert the secretSalt and iv ArrayBuffer to string representation.
+ * This meant to be used in conjuction with importSecretKey() to retrive the key.
+ * @param {string} [format="PASSPHRASE"] The format of the key inside the secretKey object
+ * @param {KeyObject} secretKey a key object consists of {key: CryptoKey, secretSalt: ArrayBuffer, iv: ArrayBuffer}
+ * @returns JSON object contains all the information about the given key.
+ */
+ export async function exportSecretKey(secretKey, format = 'jwk')
+
+/**
+ * Import a previously exported key. This convert the { key } attribute to CryptoKey object, 
+ * and convert string based secretSalt and iv back to ArrayBuffer.
+ * @param {string} [format="jwk"] The format of the key inside the secretKey object
+ * @param {KeyObject} secretKey a key object consists of {key: CryptoKey, secretSalt: ArrayBuffer, iv: ArrayBuffer}
+ * @returns JSON object contains all the information about the given key.
+ */
+ export async function importSecretKey(secretKey, format = 'jwk')
 ```
 
 ### Basic Cryptography functions

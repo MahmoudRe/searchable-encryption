@@ -35,9 +35,11 @@
  * @param {KeyObject} secretKey this should have secretSalt attribute to use for hashing
  * @returns string represent the trapdoor
  */
-export async function trapdoor(query, secretKey) {
+ export async function trapdoor(query, secretKey) {
   return await digest(query, {salt: secretKey.secretSalt});
 }
+
+// ------------ Key functions ------------
 
 /**
  * Generate a symmetric secret key for AES-CBC encryption algorithm,
@@ -114,6 +116,43 @@ export async function genSecretKey(secret = "PASSPHRASE", options = {}) {
     secretSalt: secretSalt
   };
 }
+
+/**
+ * Export the key as JSON object, where it converts the { key } attribute to a given format,
+ * and convert the secretSalt and iv ArrayBuffer to string representation.
+ * This meant to be used in conjuction with importSecretKey() to retrive the key.
+ * @param {string} [format="PASSPHRASE"] The format of the key inside the secretKey object
+ * @param {KeyObject} secretKey a key object consists of {key: CryptoKey, secretSalt: ArrayBuffer, iv: ArrayBuffer}
+ * @returns JSON object contains all the information about the given key.
+ */
+ export async function exportSecretKey(secretKey, format = 'jwk') {
+  const result = await crypto.subtle.exportKey(format, secretKey.key);
+
+  return {
+    key: result,
+    iv: ab2str(secretKey.iv),
+    secretSalt: ab2str(secretKey.secretSalt)
+  };
+}
+
+/**
+ * Import a previously exported key. This convert the { key } attribute to CryptoKey object, 
+ * and convert string based secretSalt and iv back to ArrayBuffer.
+ * @param {string} [format="jwk"] The format of the key inside the secretKey object
+ * @param {KeyObject} secretKey a key object consists of {key: CryptoKey, secretSalt: ArrayBuffer, iv: ArrayBuffer}
+ * @returns JSON object contains all the information about the given key.
+ */
+ export async function importSecretKey(secretKey, format = 'jwk') {
+   console.log(secretKey)
+  const cryptoKey = await crypto.subtle.importKey(format, secretKey.key, { name: "AES-CBC" }, true, ["encrypt", "decrypt"]);
+
+  return {
+    key: cryptoKey,
+    iv: str2ab(secretKey.iv),
+    secretSalt: str2ab(secretKey.secretSalt)
+  };
+}
+
 
 // ------------ Basic Cryptography functions ------------
 
