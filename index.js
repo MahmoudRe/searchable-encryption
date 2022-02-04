@@ -143,7 +143,6 @@ export async function genSecretKey(secret = "PASSPHRASE", options = {}) {
  * @returns JSON object contains all the information about the given key.
  */
  export async function importSecretKey(secretKey, format = 'jwk') {
-   console.log(secretKey)
   const cryptoKey = await crypto.subtle.importKey(format, secretKey.key, { name: "AES-CBC" }, true, ["encrypt", "decrypt"]);
 
   return {
