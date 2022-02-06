@@ -10,7 +10,7 @@
  export async function buildIndex(documents = [], secretKey, getKeywords) {
   //fallback getKeywords function if the document.data is string
   if (typeof getKeywords !== "function" && typeof documents[0]?.data === "string")
-    getKeywords = (e) => new Set(e.split(" "));
+    getKeywords = (e) => new Set(e.replace(/[^A-Za-z0-9_’' ]/g, '').split(" "));
 
   let indexTable = {};
   for (let doc of documents) {
