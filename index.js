@@ -139,16 +139,22 @@ export async function genSecretKey(secret = "PASSPHRASE", options = {}) {
  * Import a previously exported key. This convert the { key } attribute to CryptoKey object, 
  * and convert string based secretSalt and iv back to ArrayBuffer.
  * @param {string} [format="jwk"] The format of the key inside the secretKey object
- * @param {KeyObject} secretKey a key object consists of {key: CryptoKey, secretSalt: ArrayBuffer, iv: ArrayBuffer}
+ * @param {KeyObject} keyObj a key object consists of {key: CryptoKey, secretSalt: ArrayBuffer, iv: ArrayBuffer}
  * @returns JSON object contains all the information about the given key.
  */
- export async function importSecretKey(secretKey, format = 'jwk') {
-  const cryptoKey = await crypto.subtle.importKey(format, secretKey.key, { name: "AES-CBC" }, true, ["encrypt", "decrypt"]);
+ export async function importSecretKey(keyObj, format = 'jwk') {
+  const cryptoKey = await crypto.subtle.importKey(format, keyObj.key, { name: "AES-CBC" }, true, ["encrypt", "decrypt"]);
+
+  if(!keyObj.iv)
+    throw new Error("Initial vector (iv) is missing!")
+
+  if(!keyObj.secretSalt)
+    throw new Error("secretSalt is missing!")
 
   return {
     key: cryptoKey,
-    iv: str2ab(secretKey.iv),
-    secretSalt: str2ab(secretKey.secretSalt)
+    iv: str2ab(keyObj.iv),
+    secretSalt: str2ab(keyObj.secretSalt)
   };
 }
 
