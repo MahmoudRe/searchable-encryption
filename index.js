@@ -208,7 +208,7 @@ export async function digest(data, options = {}) {
  * @param  {...ArrayBuffer} buffers buffers passed as multiple arguments.
  * @returns ArrayBuffer resulted by concatenating the given buffers.
  */
-function abConcat(...buffers) {
+export function abConcat(...buffers) {
   const result = new Uint8Array(buffers.reduce((totalSize, buf) => totalSize + buf.byteLength, 0));
   buffers.reduce((offset, buffer) => {
     result.set(buffer, offset);
